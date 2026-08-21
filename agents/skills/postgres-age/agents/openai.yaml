@@ -1,0 +1,4 @@
+interface:
+  display_name: "PostgreSQL AGE"
+  short_description: "Use Apache AGE graph queries correctly"
+  default_prompt: "Use $postgres-age when implementing PostgreSQL graph storage or Cypher queries with Apache AGE."

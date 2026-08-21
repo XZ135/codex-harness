@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dev Commute"
+  short_description: "同步项目方向与未实现需求"
+  default_prompt: "将当前项目开发沟通同步到相关 DEV_OVERVIEW，并在必要时更新 PRD 的未实现部分。"
+policy:
+  allow_implicit_invocation: true

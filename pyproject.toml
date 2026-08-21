@@ -1,0 +1,7 @@
+[project]
+name = "codex-harness"
+version = "0.1.0"
+description = "Versioned, portable user-level Codex harness configuration"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []

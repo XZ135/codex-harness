@@ -1,0 +1,4 @@
+prefix_rule(pattern=["uv", "run", "python"], decision="allow")
+prefix_rule(pattern=["printf", "q\\n"], decision="allow")
+prefix_rule(pattern=["uv", "run"], decision="allow")
+prefix_rule(pattern=["git", "mv"], decision="allow")

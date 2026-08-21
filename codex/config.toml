@@ -1,0 +1,37 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
+
+[projects."/Users/hao.a.zeng/Documents/code"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/万维洞察/agentic-ai-chat-engine"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/ai4bi-quick-test"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/ai4bi"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/ai4bi-worktrees/quick-test"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/udaplay"]
+trust_level = "trusted"
+
+[projects."/Users/hao.a.zeng/Documents/code/codex-harness"]
+trust_level = "trusted"
+
+[plugins."figma@openai-curated"]
+enabled = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+
+
+[model_providers.azure_api]
+name = "Azure API"
+base_url = "https://accenture1.openai.azure.com/openai/v1/"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"

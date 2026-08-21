@@ -1,0 +1,35 @@
+{
+  "skill_name": "openai-agents",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to create a simple agent using openai-agents that can tell jokes. How do I set this up?",
+      "expected_output": "Code example showing how to create a basic Agent with instructions and run it using Runner.run()",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "How do I add tools to my agent? I want to create a weather tool that the agent can call.",
+      "expected_output": "Explanation and code showing how to create a function tool using @function_tool decorator or FunctionTool class, and add it to an agent",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I need to stream responses from my agent to show real-time updates. How do I do streaming with openai-agents?",
+      "expected_output": "Code example showing Runner.run_streamed() usage and how to iterate over stream_events()",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "How can I have multiple agents that hand off to each other? I want a research agent that passes work to an analysis agent.",
+      "expected_output": "Explanation of handoffs pattern with code showing multiple agents and the handoff() function",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "My agent is calling tools too much or not at all. How can I control this behavior?",
+      "expected_output": "Explanation of tool_use_behavior, StopAtTools, and how instructions affect tool calling",
+      "files": []
+    }
+  ]
+}

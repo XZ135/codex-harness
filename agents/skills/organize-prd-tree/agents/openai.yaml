@@ -1,0 +1,6 @@
+interface:
+  display_name: "Organize PRD Tree"
+  short_description: "审计并重组项目 PRD 文档树"
+  default_prompt: "Use $organize-prd-tree to audit and reorganize this repository's PRD document tree without changing requirement meaning or implementation status."
+policy:
+  allow_implicit_invocation: false
