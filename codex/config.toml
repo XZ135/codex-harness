@@ -22,6 +22,9 @@ trust_level = "trusted"
 [projects."/Users/hao.a.zeng/Documents/code/codex-harness"]
 trust_level = "trusted"
 
+[projects."/Users/hao.a.zeng/Documents/code/beavers-choice"]
+trust_level = "trusted"
+
 [plugins."figma@openai-curated"]
 enabled = true
 
@@ -32,6 +35,6 @@ enabled = true
 
 [model_providers.azure_api]
 name = "Azure API"
-base_url = "https://accenture1.openai.azure.com/openai/v1/"
+base_url = "https://zenghao-0726-resource.services.ai.azure.com/openai/v1"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"

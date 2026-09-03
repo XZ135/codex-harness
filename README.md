@@ -13,7 +13,8 @@
 | `codex/prompts/` | `~/.codex/prompts/` | 用户 prompt |
 | `agents/skills/` | `~/.agents/skills/` | 用户安装或维护的 skills |
 
-当前基线依据 2026-08-21 的本机状态建立。Codex 主配置的位置和作用可参考
+当前基线依据 2026-09-02 的本机状态更新，并按当前安装的 Codex CLI 0.151.0、
+官方最新的 Codex CLI 0.152.1 与配置文档检查兼容性。Codex 主配置的位置和作用可参考
 [OpenAI Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference)。
 
 ## 安全边界
@@ -33,9 +34,11 @@
 1. 在用户明确要求时盘点当前设备的用户级 Codex 配置。
 2. 将可迁移且会被 Codex 消费的声明式配置同步到本仓库对应目录；插件启用配置随
    `config.toml` 同步，不保存安装状态或缓存快照。
-3. 对源文件与仓库副本进行内容比对，并校验 TOML、JSON、YAML 和 Python 文件。
-4. 执行敏感信息扫描并人工检查 `git diff` 与待提交文件。
-5. 提交变更并推送到 `origin`。
+3. 对照当前安装版本与最新官方 Codex 文档，只纳入已配置、维持既有工作流所必需，
+   或经用户确认启用的新能力；不因出现新配置项就保存默认值或实验开关。
+4. 对源文件与仓库副本进行内容比对，并校验 TOML、JSON、YAML 和 Python 文件。
+5. 执行敏感信息扫描并人工检查 `git diff` 与待提交文件。
+6. 提交变更并推送到 `origin`。
 
 ## 迁移说明
 

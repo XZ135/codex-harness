@@ -38,7 +38,7 @@
 * 整体背景、长期目标、跨模块方向和项目级约束放入 `DEV_OVERVIEW`；
 * 可执行、可验收的具体需求放入 PRD；
 * 普通实现过程和低层代码细节不写入需求文档；
-* 临时分析、中间方案和调研资料放入 `./docs`；
+* 临时分析、中间方案和调研资料放入 `./local_docs`；
 * 同一信息只保留一个主要归属位置，其他文档通过索引或简要引用关联。
 
 若文档与代码不一致，不得直接假定任一方正确。应结合用户要求、测试、提交历史和相关上下文判断，必要时向用户确认。
@@ -431,7 +431,7 @@ uv add <package>
 
 ## 十三、目录约定
 
-* `./docs`：项目文档、中间分析、设计资料和调研结果；
+* `./local_docs`：项目文档、中间分析、设计资料和调研结果；
 * `./local_scripts`：临时测试、数据处理或一次性验证脚本；
 * `./tests`：正式测试；
 * 根级与模块级 `DEV_OVERVIEW.md`：方向文档树；
@@ -444,6 +444,17 @@ local_scripts/
 ```
 
 除非脚本已成为正式工具，否则不要迁入生产目录。
+
+### 个人文件双 Git
+
+项目可在根目录使用 `.personal-git/` 保存第二套 Git 元数据，与项目 Git 共享工作区，但两者的 tracked file set 必须互斥。个人 Git 仅监管：
+
+* 任意层级的 `*PRD.md`、`AGENTS.md`、`PROJECT_IMPROVEMENTS.md`、`DEV_OVERVIEW.md`、`tasks.md`；
+* 根目录下的 `.codex/`、`local_scripts/`、`local_docs/`。
+
+项目 Git 通过自身 `info/exclude` 忽略上述个人文件及 `.personal-git/`；个人 Git 使用自己的 `info/exclude` 默认忽略其他项目文件。普通项目 Git 提交不得纳入个人文件，也不得把已由一方跟踪的文件静默交给另一方。
+
+需要初始化、查看、提交、撤销或按项目版本回退个人文件时，调用 `$personal-git`。每个正常的个人 Git 提交必须包含 `Project-Anchor: <项目 Git HEAD 的完整 SHA>`，以支持项目回退后的个人版本定位。不得在含 `.personal-git/` 的项目中使用会忽略 exclude 规则的 `git clean -x` 或 `git clean -X`。
 
 ## 十四、代码风格
 

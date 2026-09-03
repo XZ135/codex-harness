@@ -7,8 +7,11 @@
 
 ## 已实现
 
-- 已建立 2026-08-21 的当前设备用户级 Codex harness 基线，纳管用户级
-  `AGENTS.md`、主配置、API profile、命令规则、prompt 和自定义 skills。
+- 已建立并于 2026-09-02 更新当前设备的用户级 Codex harness 基线，纳管用户级
+  `AGENTS.md`、主配置、API profile、命令规则、prompt 和自定义 skills；同步时会对照
+  当前安装版本与最新官方 Codex 文档，仅纳入兼容且实际使用的声明式配置。
+- 当前 API profile 使用 `gpt-5.6-sol`；用户指令统一使用 `local_docs` 作为临时文档目录，
+  并通过 `personal-git` skill 约束个人文件双 Git 的初始化、提交、对齐与回退流程。
 - 插件启用配置随 `config.toml` 纳管；不保存 Codex 不直接消费的插件安装快照、
   缓存版本、远程 ID 或其他派生状态，实际安装状态由目标设备上的 Codex 插件管理命令确认。
 - 已通过忽略规则排除认证信息、API key、会话、历史、memory、日志、运行数据库、
