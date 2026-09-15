@@ -13,9 +13,16 @@
 | `codex/prompts/` | `~/.codex/prompts/` | 用户 prompt |
 | `agents/skills/` | `~/.agents/skills/` | 用户安装或维护的 skills |
 
-当前基线依据 2026-09-02 的本机状态更新，并按当前安装的 Codex CLI 0.151.0、
-官方最新的 Codex CLI 0.152.1 与配置文档检查兼容性。Codex 主配置的位置和作用可参考
+当前基线于 2026-09-15 调整 personal-git 分支规则，本机版本与本次兼容目标均为
+`codex-cli 0.154.0`。已核对[官方 0.154.0 发布说明](https://learn.chatgpt.com/docs/changelog)：
+本仓库未使用已移除的 `codex mcp-server`，本次不启用实验开关或更换模型。
+Codex 主配置的位置和作用可参考
 [OpenAI Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference)。
+
+个人 Git 与项目 Git 使用同名分支（如 `main` → `main`、`feature/x` → `feature/x`），
+每条个人提交继续记录 `Project-Anchor`。切支、新分支来源、旧单分支迁移和分支内回退见
+[`personal-git` skill](agents/skills/personal-git/SKILL.md)。CLI 0.154.0 新增的实验 worktree
+能力不自动同步个人文件；每个 checkout 独立维护 `.personal-git/`。
 
 ## 安全边界
 

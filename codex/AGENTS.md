@@ -454,7 +454,7 @@ local_scripts/
 
 项目 Git 通过自身 `info/exclude` 忽略上述个人文件及 `.personal-git/`；个人 Git 使用自己的 `info/exclude` 默认忽略其他项目文件。普通项目 Git 提交不得纳入个人文件，也不得把已由一方跟踪的文件静默交给另一方。
 
-需要初始化、查看、提交、撤销或按项目版本回退个人文件时，调用 `$personal-git`。每个正常的个人 Git 提交必须包含 `Project-Anchor: <项目 Git HEAD 的完整 SHA>`，以支持项目回退后的个人版本定位。不得在含 `.personal-git/` 的项目中使用会忽略 exclude 规则的 `git clean -x` 或 `git clean -X`。
+需要初始化、查看、提交、切支对齐、撤销或按项目版本回退个人文件时，调用 `$personal-git`。正常写入前，个人 Git 必须切换到与当前项目分支同名的分支；新分支从已确认来源的个人快照建立，不得让所有项目分支共用一个个人分支。每个正常的个人 Git 提交必须包含 `Project-Anchor: <项目 Git HEAD 的完整 SHA>`；回退只在对应个人分支内按锚点定位，不跨分支搜索兜底。detached HEAD 不自动创建或选择个人分支；每个项目 worktree 使用其根目录下独立的 `.personal-git/`。不得在含 `.personal-git/` 的项目中使用会忽略 exclude 规则的 `git clean -x` 或 `git clean -X`。
 
 ## 十四、代码风格
 
