@@ -445,14 +445,21 @@ local_scripts/
 
 除非脚本已成为正式工具，否则不要迁入生产目录。
 
-### 个人文件双 Git
+### 项目文档版本管理模式
 
-项目可在根目录使用 `.personal-git/` 保存第二套 Git 元数据，与项目 Git 共享工作区，但两者的 tracked file set 必须互斥。个人 Git 仅监管：
+项目初始化时调用 `$personal-git` 确定文档版本管理模式，在项目根级 `AGENTS.md` 中记录 `文档版本管理：主 Git` 或 `文档版本管理：personal-git`。已有明确选择时沿用，否则向用户确认；单人项目或无个人文档隔离需求时推荐主 Git，多人项目也不强制使用双 Git。
 
-* 任意层级的 `*PRD.md`、`AGENTS.md`、`PROJECT_IMPROVEMENTS.md`、`DEV_OVERVIEW.md`、`tasks.md`；
+* **未启用 personal-git**：项目文档统一由主 Git 管理，与代码一起提交、切支和回退。不要创建个人仓或添加 personal-git 专用忽略规则，不要求项目锚点，也不禁止主 Git 跟踪下述文档路径。凭据、缓存和无需保留的临时文件仍不入库。
+* **已启用 personal-git**：使用下面的双 Git 规则。已有项目先检查模式记录与实际仓库；无记录且无个人仓时保留主 Git 管理现状，不因编辑文档自动初始化。模式记录与实际仓库冲突、个人仓损坏或新 worktree 缺少个人仓时，按 skill 检查并确认，不能静默切换模式。后续模式转换须经用户明确授权并保全现有文件和历史。
+
+### 已启用 personal-git 的双 Git 规则
+
+仅在启用 personal-git 后，项目在根目录使用 `.personal-git/` 保存第二套 Git 元数据，与项目 Git 共享工作区，两者的 tracked file set 必须互斥。个人 Git 仅监管：
+
+* 任意层级的 `*PRD.md`、`AGENTS.md`、`PROJECT_IMPROVEMENTS.md`、`DEV_OVERVIEW.md`；
 * 根目录下的 `.codex/`、`local_scripts/`、`local_docs/`。
 
-项目 Git 通过自身 `info/exclude` 忽略上述个人文件及 `.personal-git/`；个人 Git 使用自己的 `info/exclude` 默认忽略其他项目文件。普通项目 Git 提交不得纳入个人文件，也不得把已由一方跟踪的文件静默交给另一方。
+此模式下，项目 Git 通过自身 `info/exclude` 忽略上述个人文件及 `.personal-git/`；个人 Git 使用自己的 `info/exclude` 默认忽略其他项目文件。普通项目 Git 提交不得纳入这些个人文件，也不得把已由一方跟踪的文件静默交给另一方。
 
 需要初始化、查看、提交、切支对齐、撤销或按项目版本回退个人文件时，调用 `$personal-git`。正常写入前，个人 Git 必须切换到与当前项目分支同名的分支；新分支从已确认来源的个人快照建立，不得让所有项目分支共用一个个人分支。每个正常的个人 Git 提交必须包含 `Project-Anchor: <项目 Git HEAD 的完整 SHA>`；回退只在对应个人分支内按锚点定位，不跨分支搜索兜底。detached HEAD 不自动创建或选择个人分支；每个项目 worktree 使用其根目录下独立的 `.personal-git/`。不得在含 `.personal-git/` 的项目中使用会忽略 exclude 规则的 `git clean -x` 或 `git clean -X`。
 

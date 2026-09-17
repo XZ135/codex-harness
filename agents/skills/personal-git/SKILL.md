@@ -1,17 +1,28 @@
 ---
 name: personal-git
-description: 管理与主仓共享工作区、分支同名对应的个人 Git（.personal-git）。在初始化、查看、提交、切支对齐或回退个人文档与配置，或按项目提交锚点恢复个人文件时使用。不要用于普通项目 Git 提交。
+description: 在项目初始化时确定文档由主 Git 统一管理还是启用 personal-git，并管理已启用的、与主仓分支同名对应的个人 Git（.personal-git）。用于模式确认、个人仓初始化、查看、提交、切支对齐与回退；未启用时的普通文档提交使用主 Git，不走个人仓流程。
 ---
 
 # Personal Git
 
-在项目根目录内维护第二套 Git 元数据 `.personal-git/`，与项目 Git 共享工作区，但只监管个人文件。全部操作使用原生 Git 命令，不依赖脚本、插件或远程服务。
+personal-git 是可选的文档隔离模式，不是每个项目的必备设施。启用后，在项目根目录内维护第二套 Git 元数据 `.personal-git/`，与项目 Git 共享工作区，但只监管个人文件。全部操作使用原生 Git 命令，不依赖脚本、插件或远程服务。
+
+## 项目初始化与模式判断
+
+项目初始化时，根据用户是否需要把个人文档与共享代码仓隔离，确定并在项目根级 `AGENTS.md` 中记录 `文档版本管理：主 Git` 或 `文档版本管理：personal-git`。已有明确选择时直接沿用；未说明时询问一次，单人项目或无隔离需求时推荐主 Git。多人协作也不代表必须启用 personal-git。
+
+- **未启用 personal-git**：项目文档（包括 PRD、AGENTS、DEV_OVERVIEW、PROJECT_IMPROVEMENTS 和需要保留的 local_docs）统一由主 Git 管理，与代码一起提交、切支和回退。不创建 `.personal-git/`，不添加个人仓专用 exclude 区块，不要求 `Project-Anchor`，不因文件名出现在下述 allowlist 就禁止主仓跟踪。仍须排除凭据、缓存和无需保留的临时产物。
+- **已启用 personal-git**：当前工作区存在有效 `.personal-git/`，按下文执行文件互斥、同名分支和项目锚点规则。记录了启用意图但尚未初始化，不算已完成启用；须先完成初始化检查。
+
+已有项目先读取模式记录并检查实际个人仓和主仓 tracked set，无须每次询问。没有记录、也没有个人仓时，保留主 Git 管理现状，不因编辑文档自动初始化；需要确定模式时再确认并记录。路径存在但不是有效个人 Git、记录与实际仓库冲突，或已启用项目的新 worktree 缺少个人仓时，先报告并确认，不能把缺失或损坏静默解释为未启用。
+
+后续改变模式属于显式迁移：先确认文件范围、未提交改动、历史保留和 ignore 调整。未经用户授权，不执行 `git rm --cached`、删除个人仓或自动搬移跟踪关系；从 personal-git 改回主 Git 时先保全个人历史并检查敏感信息。未启用模式的普通文档操作到此转交主 Git；**以下所有个人仓操作规则仅适用于已启用或用户明确要求启用的模式**。
 
 ## 不变量
 
 1. 项目 Git 与个人 Git 的 tracked file set 必须互斥。
 2. 个人 Git 只允许监管下列路径：
-   - 任意层级：`*PRD.md`、`AGENTS.md`、`PROJECT_IMPROVEMENTS.md`、`DEV_OVERVIEW.md`、`tasks.md`；
+   - 任意层级：`*PRD.md`、`AGENTS.md`、`PROJECT_IMPROVEMENTS.md`、`DEV_OVERVIEW.md`；
    - 仓库根目录：`.codex/**`、`local_scripts/**`、`local_docs/**`。
 3. 个人 Git 元数据固定为 `<repo-root>/.personal-git/`，不得被任一仓库提交。
 4. 每个正常的个人 Git 提交都必须包含提交尾注：`Project-Anchor: <项目 Git HEAD 的完整 SHA>`。
@@ -39,7 +50,9 @@ Codex CLI 0.154.0 的 `--worktree` / `/worktree` 是实验能力。本 skill 不
 
 ## 初始化
 
-仅当 `$PGIT` 不存在时初始化；若路径已存在但不是有效 Git 目录，停止并报告，不得覆盖。
+仅在用户已选择启用 personal-git 且 `$PGIT` 不存在时初始化；缺少目录本身不是初始化授权。若路径已存在但不是有效 Git 目录，停止并报告，不得覆盖。
+
+创建前先检查主仓已跟踪的 allowlist 路径（包括模式记录所在的 `AGENTS.md`）。存在交集时先停止并确认迁移方案，不先创建个人仓或添加忽略规则；主仓文档已跟踪在未启用模式下是正常状态，不是需要自动修复的错误。
 
 ```bash
 git init --bare --initial-branch="$PROJECT_BRANCH" "$PGIT"
@@ -54,7 +67,6 @@ git init --bare --initial-branch="$PROJECT_BRANCH" "$PGIT"
 AGENTS.md
 PROJECT_IMPROVEMENTS.md
 DEV_OVERVIEW.md
-tasks.md
 /.codex/
 /local_scripts/
 /local_docs/
@@ -77,7 +89,6 @@ tasks.md
 !AGENTS.md
 !PROJECT_IMPROVEMENTS.md
 !DEV_OVERVIEW.md
-!tasks.md
 
 # Personal directories allowed at repository root.
 !/.codex/
@@ -89,6 +100,8 @@ tasks.md
 ```
 
 初始化后检查项目 Git 已跟踪文件。若主仓仍跟踪任何个人路径，停止：`info/exclude` 不会让 tracked 文件自动解除跟踪。只有用户明确要求迁移并理解其会形成主仓删除变更时，才可对准确文件执行 `git rm --cached`。首个个人提交也必须按后述提交流程写入项目锚点。
+
+规则升级不会自动改变已有仓库的 ignore 或 tracked set。旧规则纳管的路径不再属于 allowlist 时，先报告差异并确认迁移方案，保全文件与历史；不得自动删除文件、解除跟踪或改写旧提交。
 
 ## 分支对齐
 

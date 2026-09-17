@@ -19,7 +19,11 @@
 Codex 主配置的位置和作用可参考
 [OpenAI Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference)。
 
-个人 Git 与项目 Git 使用同名分支（如 `main` → `main`、`feature/x` → `feature/x`），
+项目初始化时确定并在项目根级 `AGENTS.md` 记录文档管理模式：不需要隔离个人文档时，
+不构建 personal-git，项目文档统一由主 Git 管理；需要隔离时才明确启用双 Git。
+已有项目不因编辑文档自动启用，后续模式迁移需单独确认。
+
+启用后，个人 Git 与项目 Git 使用同名分支（如 `main` → `main`、`feature/x` → `feature/x`），
 每条个人提交继续记录 `Project-Anchor`。切支、新分支来源、旧单分支迁移和分支内回退见
 [`personal-git` skill](agents/skills/personal-git/SKILL.md)。CLI 0.154.0 新增的实验 worktree
 能力不自动同步个人文件；每个 checkout 独立维护 `.personal-git/`。
