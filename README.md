@@ -28,6 +28,21 @@ Codex 主配置的位置和作用可参考
 [`personal-git` skill](agents/skills/personal-git/SKILL.md)。CLI 0.154.0 新增的实验 worktree
 能力不自动同步个人文件；每个 checkout 独立维护 `.personal-git/`。
 
+## Research skill
+
+已纳入经过候选比较和原文审查的
+[`deep-research`](agents/skills/deep-research/SKILL.md)，用于多来源调研、技术选型和方案比较。
+保留上游 MIT 许可与固定版本，详见
+[来源与使用说明](agents/skills/deep-research/UPSTREAM.md)和
+[选型记录](local_docs/research-skill-selection.md)。
+
+本项目通过 `.agents/skills/deep-research` 相对链接加载它，无需额外账号或运行依赖。
+下一轮可使用 `$deep-research 调研……`；如未出现在 skills 列表，重启 Codex 后检查。
+其实际研究仍需要宿主提供可用的搜索和网页读取工具。
+
+当前设备同时已安装到用户级 `~/.agents/skills/deep-research/`，其他项目也可调用。
+该目录由 Codex 自动发现，无需额外修改 `config.toml`；用户级副本与仓库版本保持一致。
+
 ## 安全边界
 
 仓库不会纳管以下内容：

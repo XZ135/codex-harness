@@ -7,6 +7,15 @@
 
 ## 已实现
 
+- 已纳管 MIT 许可的 `deep-research` skill 上游固定版本，保留原文、许可证和来源说明，
+  提供原始来源核验、反证检索、证据权重、冲突分析及置信度报告的研究指令。
+  本项目通过 `.agents/skills/deep-research` 相对链接提供发现入口；不要求新增外部服务账号
+  或运行依赖，搜索和网页读取能力由宿主提供。已校验原文一致性、元数据及链接目标；
+  未进行研究质量横向评测。使用方法见 README，比较依据见
+  [`local_docs/research-skill-selection.md`](local_docs/research-skill-selection.md)。
+- 当前设备已将同一固定版本安装到用户级 `~/.agents/skills/deep-research/`，
+  保留许可证和来源说明，供跨项目调用；采用 Codex 默认发现机制，无需额外配置开关。
+
 - 已建立并于 2026-09-02 更新当前设备的用户级 Codex harness 基线，纳管用户级
   `AGENTS.md`、主配置、API profile、命令规则、prompt 和自定义 skills；同步时会对照
   当前安装版本与最新官方 Codex 文档，仅纳入兼容且实际使用的声明式配置。
